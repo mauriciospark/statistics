@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GitHub README Cards</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <h1>GitHub README Cards</h1>
+
+      <label class="field">
+        <span>Usuário do GitHub</span>
+        <input id="username" type="text" placeholder="ex: brunobritodev" />
+      </label>
+
+      <label class="field">
+        <span>Tema</span>
+        <select id="theme">
+          <option value="default" selected>Padrão (branco)</option>
+          <option value="highcontrast">High Contrast</option>
+          <option value="dark">Dark</option>
+        </select>
+      </label>
+
+      <details class="weights">
+        <summary>Ajustar pesos do rank</summary>
+        <div class="weights-grid" id="weights"></div>
+      </details>
+
+      <button id="submit">Gerar cards</button>
+      <p id="status" class="status"></p>
+    </aside>
+
+    <main class="preview">
+      <h2>Preview</h2>
+      <div class="cards-box">
+        <img id="cardsImg" alt="Preview dos cards" />
+      </div>
+
+      <h2>Markdown</h2>
+      <p class="hint">Cole este código único no seu README — ele já traz os dois cards juntos.</p>
+      <textarea id="markdown" readonly rows="4"></textarea>
+      <button id="copy">Copiar código</button>
+      <span id="copyStatus" class="status"></span>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
