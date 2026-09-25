@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GitHub README Generator</title>
+  <link rel="stylesheet" href="./github-readme-cards/public/style.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <h1>README Generator</h1>
+
+      <details class="section" open>
+        <summary>Perfil</summary>
+        <label class="field">
+          <span>Usuário do GitHub</span>
+          <input id="username" type="text" placeholder="ex: usuário" />
+        </label>
+        <label class="field">
+          <span>Nome de exibição</span>
+          <input id="displayName" type="text" placeholder="ex: Nome do usuário" />
+        </label>
+        <label class="field">
+          <span>Emojis do título</span>
+          <input id="titleEmojis" type="text" placeholder="ex: 💰 🙌 😎" />
+        </label>
+        <label class="field">
+          <span>Bio / frase curta (opcional)</span>
+          <input id="bio" type="text" placeholder="ex: Dev fullstack apaixonado por..." />
+        </label>
+      </details>
+
+      <details class="section">
+        <summary>Tecnologias</summary>
+        <p class="hint">Selecione as tecnologias que vão aparecer na fileira de badges.</p>
+        <div id="skillsPicker" class="skills-picker"></div>
+      </details>
+
+      <details class="section">
+        <summary>Redes sociais</summary>
+        <p class="hint">Deixe em branco pra não incluir o botão.</p>
+        <div id="socialsPicker" class="socials-picker"></div>
+      </details>
+
+      <details class="section">
+        <summary>Imagens / banners</summary>
+        <p class="hint">Uma URL de imagem por linha (opcional).</p>
+        <textarea id="bannerUrls" rows="3" placeholder="https://exemplo.com/banner.png"></textarea>
+      </details>
+
+      <details class="section">
+        <summary>Tema dos cards</summary>
+        <label class="field">
+          <span>Tema</span>
+          <select id="theme">
+            <option value="default" selected>Padrão (branco)</option>
+            <option value="highcontrast">High Contrast</option>
+            <option value="dark">Dark</option>
+          </select>
+        </label>
+      </details>
+
+      <details class="section">
+        <summary>Ajustar pesos do rank</summary>
+        <div class="weights-grid" id="weights"></div>
+      </details>
+
+      <button id="submit">Gerar README</button>
+      <p id="status" class="status"></p>
+    </aside>
+
+    <main class="preview">
+      <h2>Preview</h2>
+      <div class="readme-preview" id="readmePreview">
+        <h1 id="pvTitle" class="pv-title"></h1>
+        <p id="pvBio" class="pv-bio"></p>
+        <div id="pvSkills" class="pv-row"></div>
+        <div id="pvSocials" class="pv-row"></div>
+        <div id="pvBanners" class="pv-row"></div>
+        <img id="cardsImg" class="pv-cards" alt="Preview dos cards" />
+      </div>
+
+      <h2>Markdown completo</h2>
+      <p class="hint">Cole este código no seu README.md.</p>
+      <textarea id="markdown" readonly rows="10"></textarea>
+      <button id="copy">Copiar código</button>
+      <span id="copyStatus" class="status"></span>
+    </main>
+  </div>
+
+  <script src="./github-readme-cards/public/app.js"></script>
+</body>
+</html>
