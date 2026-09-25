@@ -1,11 +1,22 @@
 const WEIGHT_LABELS = {
+<<<<<<< HEAD
   commits: "Commits", prs: "Pull Requests", issues: "Issues", reviews: "Reviews",
   stars: "Stars", followers: "Followers", contributedTo: "Contributed to",
+=======
+  commits: "Commits",
+  prs: "Pull Requests",
+  issues: "Issues",
+  reviews: "Reviews",
+  stars: "Stars",
+  followers: "Followers",
+  contributedTo: "Contributed to",
+>>>>>>> 0e822c1bc30cda83f8d49a42257761e712cdc627
 };
 const DEFAULT_WEIGHTS = {
   commits: 2, prs: 3, issues: 1, reviews: 1, stars: 4, followers: 1, contributedTo: 2,
 };
 
+<<<<<<< HEAD
 // Redes sociais suportadas, usando badges do shields.io (não depende do nosso servidor)
 const SOCIALS = [
   { id: "instagram", label: "Instagram", color: "E4405F", logo: "instagram", urlPrefix: "https://instagram.com/" },
@@ -36,11 +47,23 @@ const pvSkills = document.getElementById("pvSkills");
 const pvSocials = document.getElementById("pvSocials");
 const pvBanners = document.getElementById("pvBanners");
 const cardsImg = document.getElementById("cardsImg");
+=======
+const weightsEl = document.getElementById("weights");
+const usernameEl = document.getElementById("username");
+const themeEl = document.getElementById("theme");
+const submitEl = document.getElementById("submit");
+const statusEl = document.getElementById("status");
+const imgEl = document.getElementById("cardsImg");
+>>>>>>> 0e822c1bc30cda83f8d49a42257761e712cdc627
 const markdownEl = document.getElementById("markdown");
 const copyEl = document.getElementById("copy");
 const copyStatusEl = document.getElementById("copyStatus");
 
+<<<<<<< HEAD
 // --- Pesos do rank ---
+=======
+// Monta os campos numéricos de peso dinamicamente
+>>>>>>> 0e822c1bc30cda83f8d49a42257761e712cdc627
 for (const [key, label] of Object.entries(WEIGHT_LABELS)) {
   const wrapper = document.createElement("label");
   wrapper.innerHTML = `<span>${label}</span>`;
@@ -54,6 +77,7 @@ for (const [key, label] of Object.entries(WEIGHT_LABELS)) {
   weightsEl.appendChild(wrapper);
 }
 
+<<<<<<< HEAD
 // --- Redes sociais: um campo de URL/usuário por rede ---
 for (const social of SOCIALS) {
   const wrapper = document.createElement("label");
@@ -98,6 +122,8 @@ function getSelectedSkillIds() {
   return Array.from(skillsPickerEl.querySelectorAll("input[type=checkbox]:checked")).map((i) => i.value);
 }
 
+=======
+>>>>>>> 0e822c1bc30cda83f8d49a42257761e712cdc627
 function getWeightsQuery() {
   const params = new URLSearchParams();
   weightsEl.querySelectorAll("input[data-weight]").forEach((input) => {
@@ -112,6 +138,7 @@ function buildCardsUrl(username, theme) {
   return `/api/cards/${encodeURIComponent(username)}?${params.toString()}`;
 }
 
+<<<<<<< HEAD
 function buildSkillsUrl(skillIds) {
   return `/api/skills?ids=${skillIds.map(encodeURIComponent).join(",")}`;
 }
@@ -163,6 +190,8 @@ function buildMarkdown({ title, bio, skillsUrl, hasSkills, socials, banners, car
   return lines.join("\n");
 }
 
+=======
+>>>>>>> 0e822c1bc30cda83f8d49a42257761e712cdc627
 async function generate() {
   const username = usernameEl.value.trim();
   if (!username) {
@@ -175,6 +204,7 @@ async function generate() {
 
   const theme = themeEl.value;
   const cardsUrl = buildCardsUrl(username, theme);
+<<<<<<< HEAD
   const skillIds = getSelectedSkillIds();
   const skillsUrl = buildSkillsUrl(skillIds);
   const socials = getFilledSocials();
@@ -205,6 +235,15 @@ async function generate() {
   markdownEl.value = buildMarkdown({
     title, bio, skillsUrl, hasSkills: skillIds.length > 0, socials, banners, cardsUrl, origin,
   });
+=======
+
+  imgEl.onload = () => { statusEl.textContent = ""; submitEl.disabled = false; };
+  imgEl.onerror = () => { statusEl.textContent = "Não foi possível gerar os cards. Confira o usuário."; submitEl.disabled = false; };
+  imgEl.src = `${cardsUrl}&_=${Date.now()}`;
+
+  const origin = window.location.origin;
+  markdownEl.value = `![Meus stats do GitHub](${origin}${cardsUrl})`;
+>>>>>>> 0e822c1bc30cda83f8d49a42257761e712cdc627
 }
 
 submitEl.addEventListener("click", generate);
