@@ -6,20 +6,73 @@ import { renderSkillsRow } from "../src/cards/skillsCard.js";
 import { SKILL_GROUPS } from "../src/cards/skillsList.js";
 
 const WEIGHT_LABELS = {
-  commits: "Commits", prs: "Pull Requests", issues: "Issues", reviews: "Reviews",
-  stars: "Stars", followers: "Followers", contributedTo: "Contributed to",
+  commits: "Commits",
+  prs: "Pull Requests",
+  issues: "Issues",
+  reviews: "Reviews",
+  stars: "Stars",
+  followers: "Followers",
+  contributedTo: "Contributed to",
 };
 
 // Redes sociais suportadas, usando badges do shields.io (não depende de servidor nenhum)
 const SOCIALS = [
-  { id: "instagram", label: "Instagram", color: "E4405F", logo: "instagram", urlPrefix: "https://instagram.com/" },
-  { id: "linkedin", label: "LinkedIn", color: "0A66C2", logo: "linkedin", urlPrefix: "https://linkedin.com/in/" },
-  { id: "email", label: "Email", color: "D14836", logo: "gmail", urlPrefix: "mailto:" },
-  { id: "twitter", label: "X / Twitter", color: "000000", logo: "x", urlPrefix: "https://x.com/" },
-  { id: "youtube", label: "YouTube", color: "FF0000", logo: "youtube", urlPrefix: "https://youtube.com/@" },
-  { id: "discord", label: "Discord", color: "5865F2", logo: "discord", urlPrefix: "" },
-  { id: "twitch", label: "Twitch", color: "9146FF", logo: "twitch", urlPrefix: "https://twitch.tv/" },
-  { id: "devto", label: "Dev.to", color: "0A0A0A", logo: "devdotto", urlPrefix: "https://dev.to/" },
+  {
+    id: "instagram",
+    label: "Instagram",
+    color: "E4405F",
+    logo: "instagram",
+    urlPrefix: "https://instagram.com/",
+  },
+  {
+    id: "linkedin",
+    label: "LinkedIn",
+    color: "0A66C2",
+    logo: "linkedin",
+    urlPrefix: "https://linkedin.com/in/",
+  },
+  {
+    id: "email",
+    label: "Email",
+    color: "D14836",
+    logo: "gmail",
+    urlPrefix: "mailto:",
+  },
+  {
+    id: "twitter",
+    label: "X / Twitter",
+    color: "000000",
+    logo: "x",
+    urlPrefix: "https://x.com/",
+  },
+  {
+    id: "youtube",
+    label: "YouTube",
+    color: "FF0000",
+    logo: "youtube",
+    urlPrefix: "https://youtube.com/@",
+  },
+  {
+    id: "discord",
+    label: "Discord",
+    color: "5865F2",
+    logo: "discord",
+    urlPrefix: "",
+  },
+  {
+    id: "twitch",
+    label: "Twitch",
+    color: "9146FF",
+    logo: "twitch",
+    urlPrefix: "https://twitch.tv/",
+  },
+  {
+    id: "devto",
+    label: "Dev.to",
+    color: "0A0A0A",
+    logo: "devdotto",
+    urlPrefix: "https://dev.to/",
+  },
 ];
 
 const TOKEN_STORAGE_KEY = "githubReadmeCards.token";
@@ -81,7 +134,12 @@ for (const social of SOCIALS) {
   wrapper.innerHTML = `<span>${social.label}</span>`;
   const input = document.createElement("input");
   input.type = "text";
-  input.placeholder = social.id === "email" ? "seu@email.com" : social.id === "discord" ? "https://discord.gg/seu-convite" : "seu-usuario";
+  input.placeholder =
+    social.id === "email"
+      ? "seu@email.com"
+      : social.id === "discord"
+        ? "https://discord.gg/seu-convite"
+        : "seu-usuario";
   input.dataset.social = social.id;
   wrapper.appendChild(input);
   socialsPickerEl.appendChild(wrapper);
@@ -109,7 +167,9 @@ function loadSkillsPicker() {
 loadSkillsPicker();
 
 function getSelectedSkillIds() {
-  return Array.from(skillsPickerEl.querySelectorAll("input[type=checkbox]:checked")).map((i) => i.value);
+  return Array.from(
+    skillsPickerEl.querySelectorAll("input[type=checkbox]:checked"),
+  ).map((i) => i.value);
 }
 
 function getWeights() {
@@ -122,10 +182,13 @@ function getWeights() {
 
 function getFilledSocials() {
   return SOCIALS.map((social) => {
-    const input = socialsPickerEl.querySelector(`input[data-social="${social.id}"]`);
+    const input = socialsPickerEl.querySelector(
+      `input[data-social="${social.id}"]`,
+    );
     const value = input.value.trim();
     if (!value) return null;
-    const url = social.id === "email" ? `mailto:${value}` : `${social.urlPrefix}${value}`;
+    const url =
+      social.id === "email" ? `mailto:${value}` : `${social.urlPrefix}${value}`;
     return { ...social, url };
   }).filter(Boolean);
 }
@@ -145,7 +208,8 @@ function socialBadgeUrl(social) {
 // igual o servidor antigo fazia — só que agora roda no navegador.
 function combineCardsSideBySide(svgA, svgB) {
   const GAP = 20;
-  const w = 460, h = 220;
+  const w = 460,
+    h = 220;
   const totalWidth = w * 2 + GAP;
   return `<svg width="${totalWidth}" height="${h}" viewBox="0 0 ${totalWidth} ${h}" xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(0,0)">${stripSvgTag(svgA)}</g>
@@ -173,14 +237,23 @@ function downloadSvg(svg, filename) {
   URL.revokeObjectURL(url);
 }
 
-function buildMarkdown({ title, bio, hasSkills, socials, banners }) {
+function buildMarkdown({
+  title,
+  bio,
+  hasSkills,
+  socials,
+  banners,
+  skillsSvg,
+  cardsSvg,
+}) {
   const lines = [];
   lines.push(`### ${title}`);
   if (bio) lines.push("", bio);
   lines.push("");
 
-  if (hasSkills) {
-    lines.push(`![Tecnologias](./tech-icons.svg)`, "");
+  if (hasSkills && skillsSvg) {
+    const skillsDataUri = svgToDataUri(skillsSvg);
+    lines.push(`![Tecnologias](${skillsDataUri})`, "");
   }
 
   if (socials.length) {
@@ -194,7 +267,10 @@ function buildMarkdown({ title, bio, hasSkills, socials, banners }) {
     lines.push(`![banner](${banner})`, "");
   }
 
-  lines.push(`![Meus stats do GitHub](./github-cards.svg)`);
+  if (cardsSvg) {
+    const cardsDataUri = svgToDataUri(cardsSvg);
+    lines.push(`![Meus stats do GitHub](${cardsDataUri})`);
+  }
 
   return lines.join("\n");
 }
@@ -228,10 +304,15 @@ async function generate() {
     pvBio.style.display = bio ? "block" : "none";
 
     pvSocials.innerHTML = socials
-      .map((s) => `<a href="${s.url}" target="_blank" rel="noopener"><img src="${socialBadgeUrl(s)}" alt="${s.label}" /></a>`)
+      .map(
+        (s) =>
+          `<a href="${s.url}" target="_blank" rel="noopener"><img src="${socialBadgeUrl(s)}" alt="${s.label}" /></a>`,
+      )
       .join(" ");
 
-    pvBanners.innerHTML = banners.map((b) => `<img src="${b}" alt="banner" />`).join(" ");
+    pvBanners.innerHTML = banners
+      .map((b) => `<img src="${b}" alt="banner" />`)
+      .join(" ");
 
     // Fileira de tecnologias (SVG gerado localmente, sem servidor)
     if (skillIds.length) {
@@ -250,17 +331,23 @@ async function generate() {
 
     const statsSvg = renderStatsCard(
       { name: data.name, metrics: data.metrics, rank, percentile },
-      theme
+      theme,
     );
     const languagesSvg = renderLanguagesCard(data.languages, theme);
-    lastCardsSvg = combineCardsSideBySide(languagesSvg, statsSvg);
+    lastCardsSvg = combineCardsSideBySide(statsSvg, languagesSvg);
 
     cardsImg.src = svgToDataUri(lastCardsSvg);
     downloadsEl.style.display = "";
     statusEl.textContent = "";
 
     markdownEl.value = buildMarkdown({
-      title, bio, hasSkills: skillIds.length > 0, socials, banners,
+      title,
+      bio,
+      hasSkills: skillIds.length > 0,
+      socials,
+      banners,
+      skillsSvg: lastSkillsSvg,
+      cardsSvg: lastCardsSvg,
     });
   } catch (err) {
     statusEl.textContent = err.message || "Não foi possível gerar os cards.";
@@ -270,7 +357,9 @@ async function generate() {
 }
 
 submitEl.addEventListener("click", generate);
-usernameEl.addEventListener("keydown", (e) => { if (e.key === "Enter") generate(); });
+usernameEl.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") generate();
+});
 
 downloadCardsEl.addEventListener("click", () => {
   if (lastCardsSvg) downloadSvg(lastCardsSvg, "github-cards.svg");
