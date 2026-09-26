@@ -7,6 +7,6 @@
 - I'm fixing a few things, that's why the tool is offline, but soon, if everything is working properly, you'll be able to use it. I just left these images showing how it is now and how it will be.
 
 
-<img align="center" height="10000" src="https://github.com/mauriciospark/statistics/blob/main/hjk.png"/>
+<img align="center" height="10000" src="https://github.com/mauriciospark/statistics/blob/main/frontend.png"/>
 
 
